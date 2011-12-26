@@ -42,6 +42,18 @@ class Notification(object):
             for backend_module in subscription.get_backends().values():
                 backend_module().emit(self, queues)
 
+    @property
+    def queues(self):
+        queues = []
+        for subscriber in self.subscribers:
+            queues.append('dropdown=other,user=%s,undelivered' % subscriber.pk)
+        return queues
+
+    @property
+    def subscribers(self):
+        for user in Subscription.objects.subscribers_of(self.subscribers_of):
+            yield user
+
     def __init__(self, **kwargs):
         """
         Any keyword arguments passed to the constructor is set as an instance variable.

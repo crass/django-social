@@ -1,16 +1,29 @@
 subscription.examples.yourlabs
 ==============================
 
-What this is about
-------------------
-
 Yourlabs example is a demonstration of what a cool reusable app that just adds
 blazing fast facebook-like notifications to your project with minimal hassle.
 
-I am `is_null`, a freelancer idling on `irc.freenode.net` 24/7 for years.
-In an infinite quest for karma, and maybe because the anarchist in me loves the
-idea that any worker can share tools without real notion of property, I'd love
-to help so you can just send me private messages if you need support.
+Notifications are fun
+---------------------
+
+Emiting a comment notification looks like this::
+
+    from django.contrib.comments.signals import comment_was_posted
+
+    from subscription.examples.yourlabs import Notification
+
+    def comment_notification(sender, comment=None, **kwargs):
+        Notification(comment=comment, template='comment_notification', 
+            subscribers_of=comment.content_object)).emit()
+    comment_was_posted.connect(comment_notification)
+
+And easy to setup
+-----------------
+
+::
+
+    pip install -e git+git@github.com:yourlabs/django-subscription.git#egg=subscription
 
 Concept
 -------

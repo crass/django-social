@@ -30,13 +30,6 @@ class CommentNotification(Notification):
         return kwargs
 
     @property
-    def queues(self):
-        queues = []
-        for subscriber in self.subscribers:
-            queues.append('dropdown=other,user=%s,undelivered' % subscriber.pk)
-        return queues
-
-    @property
     def subscribers(self):
         content_ct = ContentType.objects.get_for_model(self.content)
         actor_ct = ContentType.objects.get_for_model(self.actor)

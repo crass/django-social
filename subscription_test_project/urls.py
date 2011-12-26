@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^avatar/', include('avatar.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r"^post/(new_thread|reply)/(\d+)/$", project_specific.user_detail, name='forum_post'),
 )
