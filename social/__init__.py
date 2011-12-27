@@ -19,9 +19,10 @@ def load_backend(path):
     return cls
 
 def get_backends():
-    from django.conf import settings
+    import settings
+
     backends = {}
-    for backend_name, backend_path in settings.SUBSCRIPTION_BACKENDS.items():
+    for backend_name, backend_path in settings.BACKENDS.items():
         backends[backend_name] = load_backend(backend_path)
 
     if not backends:

@@ -5,17 +5,17 @@ from django import shortcuts
 from django import http
 from django.utils import simplejson
 
-import subscription
-from settings import *
+import social
+from ..settings import *
 
 def list(request, keys=None, states=None, push_states=None,
-    backend='storage', extra_context=None,
-    template_name='subscription/list.html'):
+    backend=DEFAULT_BACKEND, extra_context=None,
+    template_name='social/list.html'):
 
     if not request.user.is_authenticated():
         return http.HttpResponseForbidden()
 
-    b = subscription.get_backends()[backend]()
+    b = social.get_backends()[backend]()
     context = {
         'today': datetime.date.today(),
     }

@@ -5,11 +5,11 @@ from django import shortcuts
 from django import http
 from django.utils import simplejson
 
-import subscription
-from settings import *
+import social
+from ..settings import *
 
-def dropdown_more(request, push_states=None, backend='storage',
-    template_name='subscription/list.html', 
+def dropdown_more(request, push_states=None, backend=DEFAULT_BACKEND,
+    template_name='social/list.html', 
     extra_context=None):
     
     if push_states is None:
@@ -17,7 +17,7 @@ def dropdown_more(request, push_states=None, backend='storage',
 
     queues = request.GET.getlist('q')
 
-    b = subscription.get_backends()[backend]()
+    b = social.get_backends()[backend]()
 
     notifications = []
     for queue in queues:
@@ -37,8 +37,8 @@ def dropdown_more(request, push_states=None, backend='storage',
     return shortcuts.render(request, template_name, context)
 
 def dropdown_ajax(request, dropdowns=None, states=None, counter_state=None, 
-    new_state=None, push_states=None, limit=15, backend='storage',
-    template_name='subscription/dropdown.html'):
+    new_state=None, push_states=None, limit=15, backend=DEFAULT_BACKEND,
+    template_name='social/dropdown.html'):
 
     if not request.user.is_authenticated():
         return http.HttpResponseForbidden()
@@ -49,7 +49,7 @@ def dropdown_ajax(request, dropdowns=None, states=None, counter_state=None,
             continue
         remote_counts[k] = int(v)
 
-    b = subscription.get_backends()[backend]()
+    b = social.get_backends()[backend]()
 
     context = {}
     for dropdown in dropdowns:
@@ -85,7 +85,7 @@ def dropdown_ajax(request, dropdowns=None, states=None, counter_state=None,
 
 def dropdown_open(request, push_states=None, backend='storage'):
     dropdown = request.GET['dropdown']
-    b = subscription.get_backends()[backend]()
+    b = social.get_backends()[backend]()
 
     for old_state, new_state in push_states.items():
         q = 'dropdown=%s,user=%s,%s' % (dropdown, request.user.pk, old_state)

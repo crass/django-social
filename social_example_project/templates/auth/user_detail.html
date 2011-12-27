@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
-{% load comments %}
+{% load comments subscription_tags %}
 
 {% block body %}
 {{ user }}
+
+{% subscription_toggle_link user request.user request.path %}
 
 {% render_comment_list for user %}
 {% render_comment_form for user %}

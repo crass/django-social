@@ -1,0 +1,11 @@
+{% load avatar_tags social_tags %}
+
+{% block avatar %}
+    {% if actor %}
+        {% avatar actor 16 %}
+    {% endif %}
+{% endblock %}
+            
+{% block story %}{% endblock %}
+
+{{ sent_at|timesince_human }}

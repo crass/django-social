@@ -1,13 +1,13 @@
 from django.db.models import signals
 from django.db.models import get_model
 
-from subscription.examples.yourlabs import shortcuts
-from subscription.examples.yourlabs.notification import Notification, Lazy
+from subscription.contrib.yourlabs import shortcuts
+from subscription.contrib.yourlabs.notification import Notification, Lazy
 
 """
 Example usage: 
 
-from subscription.examples.yourlabs.apps import django_messages
+from subscription.contrib.yourlabs.apps import django_messages
 django_messages.signals.post_save.connect(django_messages.message_notification,
     sender=django_messages.Message)
 """

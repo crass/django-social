@@ -1,6 +1,6 @@
 {% load url from future %}
 {% load i18n %}
-{% load subscription_yourlabs_tags %}
+{% load social_tags %}
 {% load avatar_tags %}
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
@@ -15,14 +15,14 @@
         <![endif]-->
 
         <style type="text/css">
-            .subscription .hidden {
+            .social .hidden {
                 display: none;
             }
-            .subscription .dropdown.inner {
+            .social .dropdown.inner {
                 position: absolute;
                 width: 300px;
             }
-            .subscription .toggler {
+            .social .toggler {
                 background-color: rgba(0, 0, 0, 0.5);
                 color: #FFFFFF;
                 line-height: 19px;
@@ -51,7 +51,7 @@
  
                     </ul>
 
-                    <ul class="nav subscription nav secondary-nav">
+                    <ul class="nav social nav secondary-nav">
                         {% if request.user.is_authenticated %}
                             <li>
                                 <a href="{% url 'avatar_change' %}" title="{% trans 'Change avatar' %}">
@@ -63,11 +63,11 @@
                                     Hello {{ request.user }}
                                 </a>
                             </li>
-                            <li class="dropdown outer friends" id="subscription_dropdown_friends">
-                                {% subscription_yourlabs_dropdown request 'friends' 'undelivered,unacknowledged,acknowledged' 'undelivered,unacknowledged' 15 %}
+                            <li class="dropdown outer friends" id="social_dropdown_friends">
+                                {% social_dropdown request 'friends' 'undelivered,unacknowledged,acknowledged' 'undelivered,unacknowledged' 15 %}
                             </li>
-                            <li class="dropdown outer other" id="subscription_dropdown_other">
-                                {% subscription_yourlabs_dropdown request 'other' 'undelivered,unacknowledged,acknowledged' 'undelivered,unacknowledged' 15 %}
+                            <li class="dropdown outer other" id="social_dropdown_other">
+                                {% social_dropdown request 'other' 'undelivered,unacknowledged,acknowledged' 'undelivered,unacknowledged' 15 %}
                             </li>
                         {% else %}
                             <li>
@@ -86,10 +86,10 @@
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         {% if request.user.is_authenticated %}
-        <script type="text/javascript" src="{{ STATIC_PREFIX }}subscription/jquery-implementation.js"></script>
+        <script type="text/javascript" src="{{ STATIC_PREFIX }}social/jquery-implementation.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                Subscription.factory('{% url 'subscription_dropdown_ajax' %}', '{% url 'subscription_dropdown_open' %}');
+                Subscription.factory('{% url 'social_dropdown_ajax' %}', '{% url 'social_dropdown_open' %}');
             });
         </script>
         {% endif %}

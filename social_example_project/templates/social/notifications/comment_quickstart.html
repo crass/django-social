@@ -1,0 +1,30 @@
+{% extends 'social/notifications/base.html' %}
+
+{% load url from future %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% block avatar %}
+    {% avatar comment.user 16 %}
+{% endblock %}
+
+{% block story %}
+    <a href="{% url 'user_detail' comment.user.username %}">
+        {% if comment.user == viewer %}
+            {% trans 'You' %}
+        {% else %}
+            {{ comment.user }}
+        {% endif %}
+    </a>
+
+    {% trans 'commented about' %}
+
+    <a href="{% url 'user_detail' comment.content_object.username %}">
+        {% if comment.content_object == viewer %}
+            {% trans 'You' %}
+        {% else %}
+            {{ comment.content_object }}
+        {% endif %}
+    </a>
+
+{% endblock %}

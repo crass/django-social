@@ -4,8 +4,8 @@ from django.utils.importlib import import_module
 from django.utils import simplejson
 from django.contrib.auth.models import User
 
-from subscription.models import Subscription
-from subscription.examples.yourlabs.settings import *
+from ..models import Subscription
+from ..settings import *
 
 class BaseBackend(object):
     def emit(self, notification, queues=None):

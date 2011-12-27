@@ -1,13 +1,13 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('subscription.views',
+urlpatterns = patterns('social.views',
     url(r'unsubscribe/(?P<content_type>\d+)/(?P<object_id>\d+)/', 
         'unsubscribe', {
         },
-        'subscription_unsubscribe'),
+        'social_unsubscribe'),
     url(r'subscribe/(?P<content_type>\d+)/(?P<object_id>\d+)/', 
         'subscribe', {
-        }, 'subscription_subscribe'),
+        }, 'social_subscribe'),
     url(r'^dropdown/ajax/$', 'dropdown_ajax', {
         'dropdowns': ['other', 'friends', 'messages'],
         'states': ['undelivered', 'unacknowledged', 'acknowledged'],
@@ -15,18 +15,18 @@ urlpatterns = patterns('subscription.views',
             'undelivered': 'unacknowledged',
         },
         'counter_state': 'unacknowledged',
-    }, 'subscription_dropdown_ajax'),
+    }, 'social_dropdown_ajax'),
     url(r'^dropdown/open/$', 'dropdown_open', {
         'push_states': {
             'unacknowledged': 'acknowledged',
         },
-    }, 'subscription_dropdown_open'),
+    }, 'social_dropdown_open'),
     url(r'^dropdown/more/$', 'dropdown_more', {
         'push_states': {
             'undelivered': 'acknowledged',
             'unacknowledged': 'acknowledged',
         },
-    }, 'subscription_dropdown_more'),
+    }, 'social_dropdown_more'),
     url(r'^$', 'list', {
         'keys': ['dropdown=other', 'dropdown=friends', 'dropdown=messages'],
         'states': ['undelivered', 'unacknowledged', 'acknowledged'],
@@ -34,5 +34,5 @@ urlpatterns = patterns('subscription.views',
             'undelivered': 'acknowledged',
             'unacknowledged': 'acknowledged',
         },
-    }, 'subscription_list'),
+    }, 'social_list'),
 )

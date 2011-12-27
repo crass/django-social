@@ -10,7 +10,9 @@ from django.core.cache import cache
 from django.db.models import Model
 from django.contrib.contenttypes.models import ContentType
 
-import subscription
+import social
+from models import Subscription
+from .settings import *
 
 class Notification(object):
     """
@@ -39,7 +41,7 @@ class Notification(object):
             queues = self.queues
 
         if queues:
-            for backend_module in subscription.get_backends().values():
+            for backend_module in social.get_backends().values():
                 backend_module().emit(self, queues)
 
     @property
@@ -142,7 +144,7 @@ class Notification(object):
         >>> n.foo
         'bar'
         >>> n.foo_variable
-        <subscription.examples.yourlabs.notification.Variable at 0x2108cd0>
+        <social.examples.yourlabs.notification.Variable at 0x2108cd0>
         """
         if '_variable' in name:
             name = '_'.join(name.split('_')[:-1])
@@ -168,11 +170,12 @@ class Notification(object):
         notification will be pickled non-rendered, and will have to be rendered
         when it is displayed.
         """
-        if getattr(self, 'lazy', False):
+        if getattr(self, 'lazy', True):
             if hasattr(self, 'rendered'):
                 del self.rendered
         else:
-            self.rendered = self.display()
+            if not hasattr(self, 'rendered'):
+                self.display()
 
         if not getattr(self, 'sent_at', False):
             self.sent_at = datetime.datetime.now()
@@ -273,8 +276,9 @@ class Notification(object):
             'view': view,
         })
 
-        suffix = '.html'
-        template_name = 'subscription/notifications/%s%s' % (
+        suffix = 'html'
+
+        template_name = '%s%s.%s' % (NOTIFICATION_TEMPLATE_PREFIX, 
             context['template'], suffix)
 
         return template.loader.render_to_string(template_name, context)
@@ -284,10 +288,13 @@ class Notification(object):
         Of course, text and template notifications can be mixed in a
         notification list. This method abstracts the call to render_*().
         """
-        if hasattr(self, 'text'):
-            return self.render_text(viewer, view)
-        elif hasattr(self, 'template'):
-            return self.render_template(viewer, view)
+        if not getattr(self, 'rendered', False):
+            if hasattr(self, 'text'):
+                self.rendered = self.render_text(viewer, view)
+            elif hasattr(self, 'template'):
+                self.rendered = self.render_template(viewer, view)
+
+        return self.rendered
 
 class Variable(object):
     """

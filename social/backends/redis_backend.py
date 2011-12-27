@@ -13,7 +13,7 @@ import redis
 from django.db import models
 
 import base
-from subscription.examples.yourlabs.settings import *
+from ..settings import *
 
 class RedisBackend(base.BaseBackend):
     def __init__(self, prefix='subscription:'):

@@ -1,6 +1,6 @@
-{% extends 'subscription/base.html' %}
+{% extends 'social/base.html' %}
 
-{% load subscription_yourlabs_tags %}
+{% load social_tags %}
 {% load i18n %}
 
 {% block body %}
@@ -20,7 +20,7 @@
         {% endifchanged %}
 
         <li>
-            {% yourlabs_notification_render notification 'list' %}
+            {% social_notification_render notification 'list' %}
         </li>
 
         {% if forloop.last %}

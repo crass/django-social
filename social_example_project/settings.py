@@ -1,5 +1,3 @@
-# Django settings for subscription_test_project project.
-
 import posixpath
 import os.path
 
@@ -75,14 +73,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.comments',
-    'subscription',
-    'subscription.examples.yourlabs',
+    'social',
     'avatar',
 )
-
-SUBSCRIPTION_BACKENDS = {
-    'storage': 'subscription.examples.yourlabs.backends.RedisBackend',
-}
 
 LOGGING = {
    'version': 1,

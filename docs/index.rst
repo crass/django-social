@@ -10,11 +10,11 @@ Emiting a comment notification looks like this::
 
     from django.contrib.comments.signals import comment_was_posted
 
-    from subscription.examples.yourlabs import Notification
+    from social.notification import Notification
 
     def comment_notification(sender, comment=None, **kwargs):
-        Notification(comment=comment, template='comment_notification', 
-            subscribers_of=comment.content_object)).emit()
+        Notification(comment=comment, template='comment_quickstart', 
+            subscribers_of=comment.content_object).emit()
     comment_was_posted.connect(comment_notification)
 
 And easy to setup
@@ -22,18 +22,32 @@ And easy to setup
 
 ::
 
-    pip install django-social
-    # or:
-    pip install -e git+https://jpic@github.com/yourlabs/django-social.git
+    pip install -e git+https://github.com/yourlabs/django-social.git#egg=social
 
-Then add to settings.py INSTALLED_APPS: 'social'.
+Then add to settings.py INSTALLED_APPS: 'social', and run 'syncdb'.
+
+Features
+--------
+
+My current plan is:
+
+- continue improving documentation
+- stabilize the API:
+    - template tags should use django-native-tags to be more flexible
+    - 'lazy' kwarg should be dropped, 'prerender' should be added
+    - fix remaining (non-comment) contrib examples and implement them in the
+      test project
+- write unit tests again
+- release 1.0
+
+All contribution is welcome !
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-    notification
+    installation
 
 Indices and tables
 ==================

@@ -1,29 +1,25 @@
 from django import shortcuts
 from django.db.models import signals
 from django.contrib.auth.models import User
-from django.contrib.comments.signals import comment_was_posted
+from social.notification import Notification
 
-from subscription.models import Subscription
+# deploy contrib for a quick try
+from social.contrib import comments
 
-# deploy examples for a quick try
-from subscription.examples.yourlabs.apps import comments
 # auto subscribe users to objects they comment
 comments.signals.comment_was_posted.connect(comments.comments_subscription)
 
-# now, four DEAD SIMPLE examples to choose from:
-#
-#comments.signals.comment_was_posted.connect(
-#    comments.comment_static_text_notification)
-#comments.signals.comment_was_posted.connect(
-    #comments.comment_static_template_notification)
-#comments.signals.comment_was_posted.connect(
-    #comments.comment_lazy_text_notification)
+# auto notify subscribers of an object when it receives a comment
+# full blown, reusable:
+# comments.signals.comment_was_posted.connect(comments.comment_notification)
 
-# best looking one :)
-comments.signals.comment_was_posted.connect(
-    comments.comment_lazy_template_notification)
+# quickstart example:
+def comment_notification(sender, comment=None, **kwargs):
+    Notification(comment=comment, template='comment_quickstart',
+        subscribers_of=comment.content_object).emit()
+comments.signals.comment_was_posted.connect(comment_notification)
 
-from subscription.examples.yourlabs.apps import auth
+from social.contrib import auth
 auth.signals.post_save.connect(auth.subscribe_user_to_himself, sender=User)
 auth.subscribe_existing_users_to_themselves(None)
 

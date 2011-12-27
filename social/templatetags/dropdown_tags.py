@@ -3,17 +3,17 @@ import datetime
 from django import template
 from django.utils.translation import ugettext, ungettext
 
-import subscription
-from subscription.examples.yourlabs.settings import *
+import social
+from settings import *
 
 register = template.Library()
 
-@register.inclusion_tag('subscription/dropdown.html')
-def subscription_yourlabs_dropdown(request, dropdown, states, count, limit=15):
+@register.inclusion_tag('social/dropdown.html')
+def social_dropdown(request, dropdown, states, count, limit=15):
     if not request.user.is_authenticated():
         return {}
 
-    b = subscription.get_backends()['storage']()
+    b = social.get_backends()['storage']()
 
     notifications = []
     queues = []
@@ -36,14 +36,14 @@ def subscription_yourlabs_dropdown(request, dropdown, states, count, limit=15):
     }
 
 @register.simple_tag(takes_context=True)
-def yourlabs_notification_render(context, notification, view='html'):
+def social_notification_render(context, notification, view='html'):
     return notification.display(context['request'].user, view)
 
 # courtesy of http://djangosnippets.org/snippets/2275/
 @register.filter(name='timesince_human')
 def humanize_timesince(date):
     if not date:
-        return
+        return ''
 
     delta = datetime.datetime.now() - date
 

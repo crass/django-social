@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from subscription.models import Subscription
+from ..models import Subscription
 
 from django.contrib import messages
 
