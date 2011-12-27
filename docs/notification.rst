@@ -1,4 +1,4 @@
 Notification class
 ==================
 
-Placeholder
+See examples in contrib.

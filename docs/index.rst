@@ -1,12 +1,13 @@
 Welcome to django-social's documentation!
 =========================================
 
-Django-social aims to implement common features of social networks. As of 0.1, it is able to notify users via a an ajax widget.
+Django-social aims to implement common features of social networks. As of 0.1,
+it is able to notify users via a an ajax widget.
 
 Notifications are fun
 ---------------------
 
-Emiting a comment notification looks like this::
+Emiting a minimal comment notification looks like this::
 
     from django.contrib.comments.signals import comment_was_posted
 
@@ -51,7 +52,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-    installation
+   installation
+   notification
 
 Indices and tables
 ==================
