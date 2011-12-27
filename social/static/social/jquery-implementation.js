@@ -5,8 +5,10 @@ Subscription = function(json_url, push_url, override) {
         'push_url': push_url,
         'counts': {},
         'setup_dropdown': function() {
-            $('.subscription .toggler').live('click', function() {
+            $('.social .toggler').live('click', function() {
                 var dropdown = $(this).parent().find('.dropdown.inner');
+
+                $('.dropdown.inner').hide();
 
                 if (dropdown.css('display') == 'block') {
                     dropdown.slideUp();
@@ -24,21 +26,21 @@ Subscription = function(json_url, push_url, override) {
                     }
                 }
             });
-            $('.subscription .dropdown').hover(function() {
+            $('.social .dropdown').hover(function() {
                 Subscription.singleton.mouse_inside = true;
             }, function() {
                 Subscription.singleton.mouse_inside = false;
             });
             $(document).mouseup(function() {
                 if (!Subscription.singleton.mouse_inside) {
-                    $('.subscription .dropdown.inner:visible').slideUp();
+                    $('.social .dropdown.inner:visible').slideUp();
                 }
             });
             Subscription.singleton.update_counts();
         },
         'display': function(dropdowns) {
             for(var dropdown_name in dropdowns) {
-                var wrapper = $('#subscription_dropdown_' + dropdown_name);
+                var wrapper = $('#social_dropdown_' + dropdown_name);
                 wrapper.html(dropdowns[dropdown_name]);
             }
             Subscription.singleton.update_counts();
@@ -65,10 +67,10 @@ Subscription = function(json_url, push_url, override) {
         },
         'get_dropdown_name': function(el) {
             var dropdown_el = el.is('.dropdown') ? el : el.parents('.dropdown');
-            return dropdown_el.attr('id').match(/subscription_dropdown_(.+)$/)[1];
+            return dropdown_el.attr('id').match(/social_dropdown_(.+)$/)[1];
         },
         'update_counts': function() {
-            $('.subscription .dropdown.outer').each(function() {
+            $('.social .dropdown.outer').each(function() {
                 var s = Subscription.singleton;
                 var c = parseInt($(this).find('.counter').html());
                 s.counts[s.get_dropdown_name($(this))] = c;
