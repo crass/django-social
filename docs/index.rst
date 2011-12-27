@@ -24,7 +24,11 @@ And easy to setup
 
     pip install -e git+https://github.com/yourlabs/django-social.git#egg=social
 
-Then add to settings.py INSTALLED_APPS: 'social', and run 'syncdb'.
+Then either:
+
+- enter env/src/social/social_example_project and 'runserver' (recommended)
+- or add to settings.py INSTALLED_APPS: 'social', and 'syncdb', and proceed to
+  full installation
 
 Features
 --------
