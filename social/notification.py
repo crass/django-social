@@ -149,8 +149,10 @@ class Notification(object):
         if '_variable' in name:
             name = '_'.join(name.split('_')[:-1])
             return object.__getattribute__(self, name)
+        elif name in self.__dict__:
+            raise AttributeError("No attribute: %s" % name)
         else:
-            raise AttributeError
+            return super(Notification, self).__getattribute__(name)
 
     def __getstate__(self):
         """
