@@ -13,3 +13,6 @@ NOTIFICATION_TEMPLATE_PREFIX = getattr(settings, 'SOCIAL_NOTIFICATION_TEMPLATE_P
 DEFAULT_QUEUE = getattr(settings, 'SOCIAL_DEFAULT_QUEUE', QUEUES[0])
 
 REDIS_PREFIX = getattr(settings, 'SOCIAL_REDIS_PREFIX', 'default:')
+
+REDIS_DB = getattr(settings, 'SOCIAL_REDIS_DB', {})
+

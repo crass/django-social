@@ -13,16 +13,16 @@ import redis
 from django.db import models
 
 import base
-from ..settings import *
+from .. import settings
 
 class RedisBackend(base.BaseBackend):
     def __init__(self, prefix='subscription:'):
-        self.prefix = REDIS_PREFIX + prefix
+        self.prefix = settings.REDIS_PREFIX + prefix
 
     @property
     def redis(self):
         if not hasattr(self, '_redis'):
-            self._redis = redis.Redis()
+            self._redis = redis.Redis(**settings.REDIS_DB)
         return self._redis
 
     def queue(self, notification, queue):
