@@ -3,6 +3,11 @@ import datetime
 from django import template
 from django.utils.translation import ugettext, ungettext
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    now = datetime.datetime.now
+
 import social
 
 register = template.Library()
@@ -44,7 +49,7 @@ def humanize_timesince(date):
     if not date:
         return ''
 
-    delta = datetime.datetime.now() - date
+    delta = now() - date
 
     num_years = delta.days / 365
     if (num_years > 0):

@@ -1,5 +1,10 @@
 import datetime
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    now = datetime.datetime.now
+
 from notification import Notification, Lazy, Variable
 
 def factory(*args, **kwargs):
@@ -16,7 +21,7 @@ def factory(*args, **kwargs):
             kwargs[key] = Lazy(value)
 
     if 'timestamp' not in kwargs.keys() and 'sent_at' not in kwargs.keys():
-        kwargs['sent_at'] = datetime.datetime.now()
+        kwargs['sent_at'] = now()
 
     return cls(**kwargs)
 

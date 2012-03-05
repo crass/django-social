@@ -10,6 +10,11 @@ from django.core.cache import cache
 from django.db.models import Model
 from django.contrib.contenttypes.models import ContentType
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    now = datetime.datetime.now
+
 import social
 from models import Subscription
 from .settings import *
@@ -180,7 +185,7 @@ class Notification(object):
                 self.display()
 
         if not getattr(self, 'sent_at', False):
-            self.sent_at = datetime.datetime.now()
+            self.sent_at = now()
 
         return self.__dict__
 

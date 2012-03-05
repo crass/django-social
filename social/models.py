@@ -6,6 +6,12 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
+try:
+    from django.utils.timezone import now
+except ImportError:
+    now = datetime.datetime.now
+
+
 class SubscriptionManager(models.Manager):
     def subscribe(self,user,obj):
         ct = ContentType.objects.get_for_model(obj)
@@ -21,5 +27,5 @@ class Subscription(models.Model):
     content_type = models.ForeignKey('contenttypes.ContentType')
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()
-    timestamp = models.DateTimeField(editable=False,default=datetime.datetime.now)
+    timestamp = models.DateTimeField(editable=False,default=now)
     objects = SubscriptionManager()
